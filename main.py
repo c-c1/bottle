@@ -4,7 +4,7 @@ import re
 import random
 import telebot
 from telebot import types
-
+from server import server
 def extract_image_urls(page_url):
     response = requests.get(page_url)
     
@@ -118,16 +118,6 @@ def photo(message):
     except:
         bot.send_message(message.chat.id, "فشل المعالجة")
 
-max_retries = 3
-retries = 0
 
-while retries < max_retries:
-    try:
-        bot.polling(timeout=60)
-    except requests.exceptions.ReadTimeout:
-        print("Timeout occurred. Retrying...")
-        retries += 1
-        continue
-    break
-else:
-    print("Max retries reached. Unable to establish connection.")
+server()
+bot.polling()
